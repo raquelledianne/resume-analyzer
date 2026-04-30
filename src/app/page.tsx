@@ -1,22 +1,43 @@
 import Link from "next/link";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="text-center py-20">
-      <h1 className="text-5xl font-bold mb-4">
-        Improve Your Resume in Seconds
-      </h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
 
-      <p className="text-gray-600 text-lg mb-8">
-        ATS scoring • Skill gap analysis • Resume feedback
-      </p>
+      <div className="text-center space-y-6 max-w-xl">
 
-      <Link
-        href="/resume"
-        className="bg-black text-white px-6 py-3 rounded"
-      >
-        Start Analyzing
-      </Link>
+        {/* 🧠 HERO TITLE */}
+        <h1 className="text-4xl font-bold">
+          AI Resume Analyzer
+        </h1>
+
+        {/* 📄 DESCRIPTION */}
+        <p className="text-gray-600">
+          Upload your resume and get instant ATS scoring,
+          missing skills, and AI-powered feedback to improve your chances of getting hired.
+        </p>
+
+        {/* 🚀 CTA BUTTONS */}
+        <div className="flex gap-4 justify-center">
+
+          <Link
+            href="/resume"
+            className="bg-black text-white px-6 py-3 rounded-lg"
+          >
+            Analyze Resume
+          </Link>
+
+          <Link
+            href="/dashboard"
+            className="border px-6 py-3 rounded-lg"
+          >
+            View Dashboard
+          </Link>
+
+        </div>
+
+      </div>
+
     </div>
   );
 }

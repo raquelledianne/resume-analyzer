@@ -1,56 +1,76 @@
-export function calculateResumeScore(text: string) {
-  let score = 50;
-
+export function calculateResumeScore(text: string): number {
   const lower = text.toLowerCase();
 
-  // Structure checks
-  if (lower.includes("experience")) score += 10;
-  if (lower.includes("education")) score += 5;
-  if (lower.includes("projects")) score += 10;
-  if (lower.includes("skills")) score += 10;
+  let score = 0;
 
-  // Length check
-  if (text.length > 1000) score += 10;
-  if (text.length < 500) score -= 10;
-
-  // Weak phrasing penalty
-  const weakPhrases = ["responsible for", "helped with", "worked on"];
-  weakPhrases.forEach((phrase) => {
-    if (lower.includes(phrase)) score -= 3;
-  });
-
-  return Math.max(0, Math.min(score, 100));
-}
-
-export function missingKeywords(text: string) {
-  const keywords = [
-    "react",
-    "next.js",
-    "typescript",
+  const skillKeywords = [
     "javascript",
+    "typescript",
+    "react",
+    "nextjs",
+    "node",
     "api",
+    "html",
+    "css",
+    "sql",
     "git",
-    "node"
   ];
 
-  const lower = text.toLowerCase();
+  skillKeywords.forEach((skill) => {
+    if (lower.includes(skill)) {
+      score += 8;
+    }
+  });
 
-  return keywords.filter((k) => !lower.includes(k));
+  if (lower.includes("experience")) score += 10;
+  if (lower.includes("project")) score += 5;
+  if (lower.includes("built")) score += 5;
+  if (lower.includes("developed")) score += 5;
+
+  if (text.split(" ").length > 200) score += 10;
+  if (text.split(" ").length > 500) score += 10;
+
+  return Math.min(score, 100);
 }
 
-export function generateFeedback(text: string) {
+/* ✅ ADD THIS */
+export function missingKeywords(text: string): string[] {
+  const lower = text.toLowerCase();
+
+  const required = [
+    "javascript",
+    "typescript",
+    "react",
+    "nextjs",
+    "node",
+    "api",
+    "sql",
+    "git",
+  ];
+
+  return required.filter((k) => !lower.includes(k));
+}
+
+/* ✅ ADD THIS */
+export function generateFeedback(text: string): string[] {
+  const lower = text.toLowerCase();
+
   const feedback: string[] = [];
 
-  if (!text.toLowerCase().includes("projects")) {
-    feedback.push("Add a Projects section to showcase real work.");
+  if (!lower.includes("experience")) {
+    feedback.push("Add an Experience section.");
   }
 
-  if (text.includes("responsible for")) {
-    feedback.push("Replace passive phrases with strong action verbs.");
+  if (!lower.includes("project")) {
+    feedback.push("Include real projects to improve ATS score.");
   }
 
-  if (text.length < 800) {
-    feedback.push("Resume is too short—add more detail.");
+  if (!lower.includes("react")) {
+    feedback.push("Missing React — important for frontend roles.");
+  }
+
+  if (text.split(" ").length < 200) {
+    feedback.push("Add more detail to strengthen your resume.");
   }
 
   return feedback;
